@@ -47,6 +47,7 @@ import org.guvnor.common.services.shared.validation.model.ValidationMessage;
 import org.guvnor.messageconsole.events.PublishBatchMessagesEvent;
 import org.guvnor.messageconsole.events.SystemMessage;
 import org.jboss.errai.bus.server.annotations.Service;
+import org.jboss.errai.security.shared.api.identity.User;
 import org.jboss.forge.roaster.Roaster;
 import org.jboss.forge.roaster.model.JavaType;
 import org.jboss.forge.roaster.model.source.FieldSource;
@@ -112,7 +113,6 @@ import org.uberfire.java.nio.base.options.CommentedOption;
 import org.uberfire.java.nio.file.FileAlreadyExistsException;
 import org.uberfire.paging.PageResponse;
 import org.uberfire.rpc.SessionInfo;
-import org.uberfire.security.Identity;
 import org.uberfire.workbench.events.ResourceBatchChangesEvent;
 
 @Service
@@ -129,7 +129,7 @@ public class DataModelerServiceImpl implements DataModelerService {
     private SessionInfo sessionInfo;
 
     @Inject
-    private Identity identity;
+    private User identity;
 
     @Inject
     private DataModelService dataModelService;
@@ -637,7 +637,7 @@ public class DataModelerServiceImpl implements DataModelerService {
     private void processErrors( KieProject project, ModelDriverResult result ) {
         PublishBatchMessagesEvent publishEvent = new PublishBatchMessagesEvent();
         publishEvent.setCleanExisting( true );
-        publishEvent.setUserId( identity != null ? identity.getName() : null );
+        publishEvent.setUserId( identity != null ? identity.getIdentifier() : null );
         publishEvent.setMessageType( "DataModeler" );
 
         SystemMessage systemMessage;
@@ -1140,7 +1140,7 @@ public class DataModelerServiceImpl implements DataModelerService {
     }
 
     private CommentedOption makeCommentedOption( String commitMessage ) {
-        final String name = identity.getName();
+        final String name = identity.getIdentifier();
         final Date when = new Date();
 
         final CommentedOption option = new CommentedOption( sessionInfo.getId(),

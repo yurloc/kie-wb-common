@@ -17,7 +17,7 @@
 package org.kie.workbench.common.services.security;
 
 import org.jboss.errai.ioc.client.container.IOC;
-import org.uberfire.security.Identity;
+import org.jboss.errai.security.shared.api.identity.User;
 
 /**
  * This is used to turn off GUI functionality. The server decides what should be visible based on roles
@@ -27,52 +27,46 @@ import org.uberfire.security.Identity;
  */
 public final class UserCapabilities {
 
-    private static Identity identity = null;
+    private static User identity = null;
 
     public static boolean canCreateNewAsset() {
         if ( identity == null ) {
             init();
         }
-        return identity.hasRole( AppRoles.ADMIN )
-                || identity.hasRole( AppRoles.REPOSITORY_EDITOR );
+        return identity.hasAnyRoles( AppRoles.ADMIN.getName(), AppRoles.REPOSITORY_EDITOR.getName() );
     }
 
     public static boolean canSeeModulesTree() {
         if ( identity == null ) {
             init();
         }
-        return identity.hasRole( AppRoles.ADMIN )
-                || identity.hasRole( AppRoles.REPOSITORY_EDITOR )
-                || identity.hasRole( AppRoles.REPOSITORY_VIEWER );
+        return identity.hasAnyRoles( AppRoles.ADMIN.getName(), AppRoles.REPOSITORY_EDITOR.getName(), AppRoles.REPOSITORY_VIEWER.getName() );
     }
 
     public static boolean canSeeStatuses() {
         if ( identity == null ) {
             init();
         }
-        return identity.hasRole( AppRoles.ADMIN )
-                || identity.hasRole( AppRoles.REPOSITORY_EDITOR );
+        return identity.hasAnyRoles( AppRoles.ADMIN.getName(), AppRoles.REPOSITORY_EDITOR.getName() );
     }
 
     public static boolean canSeeQA() {
         if ( identity == null ) {
             init();
         }
-        return identity.hasRole( AppRoles.ADMIN )
-                || identity.hasRole( AppRoles.REPOSITORY_EDITOR );
+        return identity.hasAnyRoles( AppRoles.ADMIN.getName(), AppRoles.REPOSITORY_EDITOR.getName() );
     }
 
     public static boolean canSeeDeploymentTree() {
         if ( identity == null ) {
             init();
         }
-        return identity.hasRole( AppRoles.ADMIN )
-                || identity.hasRole( AppRoles.REPOSITORY_EDITOR );
+        return identity.hasAnyRoles( AppRoles.ADMIN.getName(), AppRoles.REPOSITORY_EDITOR.getName() );
     }
 
     private static void init() {
         if ( identity == null ) {
-            identity = IOC.getBeanManager().lookupBean( Identity.class ).getInstance();
+            identity = IOC.getBeanManager().lookupBean( User.class ).getInstance();
         }
     }
 }

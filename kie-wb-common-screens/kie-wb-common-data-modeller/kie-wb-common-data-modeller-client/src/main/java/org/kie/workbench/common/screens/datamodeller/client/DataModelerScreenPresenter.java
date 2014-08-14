@@ -957,7 +957,7 @@ public class DataModelerScreenPresenter
         UnpublishMessagesEvent unpublishMessage = new UnpublishMessagesEvent();
         unpublishMessage.setShowSystemConsole( false );
         unpublishMessage.setMessageType( currentMessageType );
-        unpublishMessage.setUserId( ( sessionInfo != null && sessionInfo.getIdentity() != null ) ? sessionInfo.getIdentity().getName() : null );
+        unpublishMessage.setUserId( ( sessionInfo != null && sessionInfo.getIdentity() != null ) ? sessionInfo.getIdentity().getIdentifier() : null );
         unpublishMessagesEvent.fire( unpublishMessage );
     }
 
@@ -967,7 +967,7 @@ public class DataModelerScreenPresenter
         PublishBatchMessagesEvent publishMessage = new PublishBatchMessagesEvent();
         publishMessage.setCleanExisting( cleanExisting );
         publishMessage.setMessageType( messageType );
-        publishMessage.setUserId( ( sessionInfo != null && sessionInfo.getIdentity() != null ) ? sessionInfo.getIdentity().getName() : null );
+        publishMessage.setUserId( ( sessionInfo != null && sessionInfo.getIdentity() != null ) ? sessionInfo.getIdentity().getIdentifier() : null );
         publishMessage.setPlace( PublishBaseEvent.Place.TOP );
         SystemMessage systemMessage;
         for ( DataModelerError error : errors ) {
@@ -1055,13 +1055,13 @@ public class DataModelerScreenPresenter
 
     private static String printSessionInfo( SessionInfo sessionInfo ) {
         if ( sessionInfo != null ) {
-            return " [id: " + sessionInfo.getId() + ", identity: " + ( sessionInfo.getIdentity() != null ? sessionInfo.getIdentity().getName() : null ) + " ]";
+            return " [id: " + sessionInfo.getId() + ", identity: " + ( sessionInfo.getIdentity() != null ? sessionInfo.getIdentity().getIdentifier() : null ) + " ]";
         }
         return null;
     }
 
     private static String getSessionInfoIdentity( SessionInfo sessionInfo ) {
-        return sessionInfo != null && sessionInfo.getIdentity() != null ? sessionInfo.getIdentity().getName() : null;
+        return sessionInfo != null && sessionInfo.getIdentity() != null ? sessionInfo.getIdentity().getIdentifier() : null;
     }
 
     private void showStatus() {

@@ -40,6 +40,7 @@ import org.guvnor.structure.repositories.RepositoryRemovedEvent;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.ioc.client.container.SyncBeanManager;
+import org.jboss.errai.security.shared.api.identity.User;
 import org.kie.uberfire.client.callbacks.DefaultErrorCallback;
 import org.kie.uberfire.client.callbacks.HasBusyIndicatorDefaultErrorCallback;
 import org.kie.workbench.common.screens.explorer.client.utils.Utils;
@@ -62,7 +63,6 @@ import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.rpc.SessionInfo;
-import org.uberfire.security.Identity;
 import org.uberfire.security.impl.authz.RuntimeAuthorizationManager;
 import org.uberfire.workbench.events.ResourceAddedEvent;
 import org.uberfire.workbench.events.ResourceBatchChangesEvent;
@@ -73,7 +73,7 @@ import org.uberfire.workbench.events.ResourceRenamedEvent;
 public abstract class BaseViewPresenter implements ViewPresenter {
 
     @Inject
-    protected Identity identity;
+    protected User identity;
 
     @Inject
     protected RuntimeAuthorizationManager authorizationManager;

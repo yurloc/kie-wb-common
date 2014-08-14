@@ -25,12 +25,12 @@ import org.guvnor.common.services.shared.metadata.model.Metadata;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.ErrorCallback;
 import org.jboss.errai.common.client.api.RemoteCallback;
+import org.jboss.errai.security.shared.api.identity.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.workbench.common.widgets.client.discussion.DiscussionWidgetPresenter;
 import org.kie.workbench.common.widgets.client.discussion.DiscussionWidgetView;
 import org.mockito.ArgumentCaptor;
-import org.uberfire.security.Identity;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -38,13 +38,13 @@ import static org.mockito.Mockito.*;
 public class DiscussionWidgetPresenterTest {
 
     private DiscussionWidgetView view;
-    private Identity identity;
+    private User identity;
     private DiscussionWidgetPresenterTest.MockAppConfigServiceCaller appConfigService;
 
     @Before
     public void setUp() throws Exception {
         view = mock(DiscussionWidgetView.class);
-        identity = mock(Identity.class);
+        identity = mock(User.class);
         appConfigService = new MockAppConfigServiceCaller();
     }
 
@@ -93,7 +93,7 @@ public class DiscussionWidgetPresenterTest {
 
         ArgumentCaptor<DiscussionRecord> discussionRecordArgumentCaptor = ArgumentCaptor.forClass(DiscussionRecord.class);
 
-        when(identity.getName()).thenReturn("Toni");
+        when(identity.getIdentifier()).thenReturn("Toni");
 
         DiscussionWidgetPresenter presenterImpl = new DiscussionWidgetPresenter(view, identity, appConfigService);
         DiscussionWidgetView.Presenter presenter = presenterImpl;

@@ -25,13 +25,14 @@ import org.guvnor.common.services.shared.metadata.model.DiscussionRecord;
 import org.guvnor.common.services.shared.metadata.model.Metadata;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.RemoteCallback;
-import org.uberfire.security.Identity;
+import org.jboss.errai.security.shared.api.identity.User;
 
 public class DiscussionWidgetPresenter
-        implements IsWidget, DiscussionWidgetView.Presenter {
+        implements IsWidget,
+                   DiscussionWidgetView.Presenter {
 
     private DiscussionWidgetView view;
-    private Identity identity;
+    private User identity;
     private Caller<AppConfigService> appConfigService;
 
     private Metadata metadata;
@@ -42,22 +43,22 @@ public class DiscussionWidgetPresenter
     @Inject
     public DiscussionWidgetPresenter(
             final DiscussionWidgetView view,
-            final Identity identity,
-            final Caller<AppConfigService> appConfigService) {
+            final User identity,
+            final Caller<AppConfigService> appConfigService ) {
         this.view = view;
         this.identity = identity;
         this.appConfigService = appConfigService;
 
-        view.setPresenter(this);
+        view.setPresenter( this );
 
     }
 
-    public void setContent(Metadata metadata) {
+    public void setContent( Metadata metadata ) {
         view.clear();
 
         this.metadata = metadata;
-        for (DiscussionRecord record : metadata.getDiscussion()) {
-            view.addRow(record);
+        for ( DiscussionRecord record : metadata.getDiscussion() ) {
+            view.addRow( record );
         }
         view.scrollToBottom();
     }
@@ -68,18 +69,18 @@ public class DiscussionWidgetPresenter
     }
 
     @Override
-    public void onAddComment(final String comment) {
-        if (comment != null && !comment.trim().isEmpty()) {
-            appConfigService.call(new RemoteCallback<Long>() {
+    public void onAddComment( final String comment ) {
+        if ( comment != null && !comment.trim().isEmpty() ) {
+            appConfigService.call( new RemoteCallback<Long>() {
                 @Override
-                public void callback(Long timestamp) {
-                    DiscussionRecord record = new DiscussionRecord(timestamp, identity.getName(), comment);
-                    metadata.getDiscussion().add(record);
-                    view.addRow(record);
+                public void callback( Long timestamp ) {
+                    DiscussionRecord record = new DiscussionRecord( timestamp, identity.getIdentifier(), comment );
+                    metadata.getDiscussion().add( record );
+                    view.addRow( record );
                     view.clearCommentBox();
                     view.scrollToBottom();
                 }
-            }).getTimestamp();
+            } ).getTimestamp();
         }
     }
 }

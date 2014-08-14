@@ -26,17 +26,17 @@ import org.guvnor.common.services.shared.metadata.MetadataService;
 import org.guvnor.common.services.shared.metadata.model.Metadata;
 import org.guvnor.common.services.shared.metadata.model.Overview;
 import org.jboss.errai.bus.server.annotations.Service;
-import org.kie.workbench.common.services.backend.service.KieService;
-import org.uberfire.backend.vfs.ObservablePath;
-import org.uberfire.io.IOService;
-import org.uberfire.java.nio.base.options.CommentedOption;
+import org.jboss.errai.security.shared.api.identity.User;
 import org.kie.workbench.common.screens.defaulteditor.service.DefaultEditorService;
+import org.kie.workbench.common.services.backend.service.KieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uberfire.backend.server.util.Paths;
+import org.uberfire.backend.vfs.ObservablePath;
 import org.uberfire.backend.vfs.Path;
+import org.uberfire.io.IOService;
+import org.uberfire.java.nio.base.options.CommentedOption;
 import org.uberfire.rpc.SessionInfo;
-import org.uberfire.security.Identity;
 
 @Service
 @ApplicationScoped
@@ -54,7 +54,7 @@ public class DefaultEditorServiceImpl
     private MetadataService metadataService;
 
     @Inject
-    private Identity identity;
+    private User identity;
 
     @Inject
     private SessionInfo sessionInfo;
@@ -79,7 +79,7 @@ public class DefaultEditorServiceImpl
     }
 
     private CommentedOption makeCommentedOption( final String commitMessage ) {
-        final String name = identity.getName();
+        final String name = identity.getIdentifier();
         final Date when = new Date();
         return new CommentedOption( sessionInfo.getId(),
                                     name,
@@ -89,7 +89,7 @@ public class DefaultEditorServiceImpl
     }
 
     @Override
-    public Overview loadOverview(ObservablePath path) {
-        return loadOverview(path);
+    public Overview loadOverview( ObservablePath path ) {
+        return loadOverview( path );
     }
 }
