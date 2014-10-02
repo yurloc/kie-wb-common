@@ -19,6 +19,7 @@ package org.kie.workbench.common.widgets.client.popups.file;
 import com.github.gwtbootstrap.client.ui.TextBox;
 import com.github.gwtbootstrap.client.ui.constants.ButtonType;
 import com.github.gwtbootstrap.client.ui.constants.IconType;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import org.kie.uberfire.client.common.popups.FormStylePopup;
@@ -33,8 +34,10 @@ import static org.uberfire.commons.validation.PortablePreconditions.*;
 
 public class CopyPopup extends FormStylePopup {
 
-    final private TextBox nameTextBox = new TextBox();
-    final private TextBox checkInCommentTextBox = new TextBox();
+    @UiField
+    TextBox nameTextBox;
+    @UiField
+    TextBox checkInCommentTextBox;
 
     public CopyPopup( final Path path,
                       final CommandWithFileNameAndCommitMessage command ) {
