@@ -28,8 +28,12 @@ import org.kie.workbench.common.services.shared.validation.ValidationService;
 @ApplicationScoped
 public class JavaFileNameValidator implements Validator {
 
-    @Inject
     private Caller<ValidationService> validationService;
+
+    @Inject
+    public JavaFileNameValidator( Caller<ValidationService> validationService ) {
+        this.validationService = validationService;
+    }
 
     @Override
     public void validate( final String value,
